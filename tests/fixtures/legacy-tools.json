@@ -1,0 +1,2162 @@
+[
+  {
+    "name": "create_category",
+    "description": "Create a new category for channels",
+    "file": "CategoryService",
+    "method": "createCategory",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Discord category name"
+      }
+    ]
+  },
+  {
+    "name": "delete_category",
+    "description": "Delete a category",
+    "file": "CategoryService",
+    "method": "deleteCategory",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": true,
+        "description": "Discord category ID"
+      }
+    ]
+  },
+  {
+    "name": "edit_category",
+    "description": "Edit a category (rename or move position)",
+    "file": "CategoryService",
+    "method": "editCategory",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": true,
+        "description": "Discord category ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New category name"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "New position in channel list"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "find_category",
+    "description": "Find a category ID using name and server ID",
+    "file": "CategoryService",
+    "method": "findCategory",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "categoryName",
+        "type": "String",
+        "required": true,
+        "description": "Discord category name"
+      }
+    ]
+  },
+  {
+    "name": "list_channels_in_category",
+    "description": "List of channels in a specific category",
+    "file": "CategoryService",
+    "method": "listChannelsInCategory",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": true,
+        "description": "Discord category ID"
+      }
+    ]
+  },
+  {
+    "name": "list_channel_permission_overwrites",
+    "description": "Returns all permission overwrites for a channel with role/member breakdown and allow/deny details",
+    "file": "ChannelPermissionService",
+    "method": "listChannelPermissionOverwrites",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      }
+    ]
+  },
+  {
+    "name": "upsert_role_channel_permissions",
+    "description": "Creates or updates permission overwrite for a role on a channel",
+    "file": "ChannelPermissionService",
+    "method": "upsertRoleChannelPermissions",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "roleId",
+        "type": "String",
+        "required": true,
+        "description": "Role ID"
+      },
+      {
+        "name": "allowRaw",
+        "type": "String",
+        "required": false,
+        "description": "Allow permissions raw bitfield"
+      },
+      {
+        "name": "denyRaw",
+        "type": "String",
+        "required": false,
+        "description": "Deny permissions raw bitfield"
+      },
+      {
+        "name": "allowPermissions",
+        "type": "String",
+        "required": false,
+        "description": "Allow permissions as CSV of names (e.g. VIEW_CHANNEL,MESSAGE_SEND)"
+      },
+      {
+        "name": "denyPermissions",
+        "type": "String",
+        "required": false,
+        "description": "Deny permissions as CSV of names (e.g. MESSAGE_SEND,MANAGE_MESSAGES)"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "upsert_member_channel_permissions",
+    "description": "Creates or updates permission overwrite for a member on a channel",
+    "file": "ChannelPermissionService",
+    "method": "upsertMemberChannelPermissions",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "User ID"
+      },
+      {
+        "name": "allowRaw",
+        "type": "String",
+        "required": false,
+        "description": "Allow permissions raw bitfield"
+      },
+      {
+        "name": "denyRaw",
+        "type": "String",
+        "required": false,
+        "description": "Deny permissions raw bitfield"
+      },
+      {
+        "name": "allowPermissions",
+        "type": "String",
+        "required": false,
+        "description": "Allow permissions as CSV of names (e.g. VIEW_CHANNEL,VOICE_CONNECT)"
+      },
+      {
+        "name": "denyPermissions",
+        "type": "String",
+        "required": false,
+        "description": "Deny permissions as CSV of names (e.g. MESSAGE_SEND,VOICE_SPEAK)"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "delete_channel_permission_overwrite",
+    "description": "Deletes a permission overwrite for a role or member from a channel",
+    "file": "ChannelPermissionService",
+    "method": "deleteChannelPermissionOverwrite",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "targetType",
+        "type": "String",
+        "required": true,
+        "description": "Target type: 'role' or 'member'"
+      },
+      {
+        "name": "targetId",
+        "type": "String",
+        "required": true,
+        "description": "Target role or user ID"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "delete_channel",
+    "description": "Delete a channel",
+    "file": "ChannelService",
+    "method": "deleteChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "create_text_channel",
+    "description": "Create a new text channel",
+    "file": "ChannelService",
+    "method": "createTextChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Channel name"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID"
+      },
+      {
+        "name": "topic",
+        "type": "String",
+        "required": false,
+        "description": "Channel topic"
+      },
+      {
+        "name": "nsfw",
+        "type": "String",
+        "required": false,
+        "description": "Whether channel is NSFW"
+      },
+      {
+        "name": "slowmode",
+        "type": "String",
+        "required": false,
+        "description": "Slowmode in seconds (0-21600)"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "Position in channel list"
+      }
+    ]
+  },
+  {
+    "name": "find_channel",
+    "description": "Find a channel type and ID using name and server ID",
+    "file": "ChannelService",
+    "method": "findChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelName",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel name"
+      }
+    ]
+  },
+  {
+    "name": "list_channels",
+    "description": "List of all channels",
+    "file": "ChannelService",
+    "method": "listChannels",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "edit_text_channel",
+    "description": "Edit settings of a text channel (name, topic, nsfw, slowmode, category, position)",
+    "file": "ChannelService",
+    "method": "editTextChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New channel name"
+      },
+      {
+        "name": "topic",
+        "type": "String",
+        "required": false,
+        "description": "New channel topic"
+      },
+      {
+        "name": "nsfw",
+        "type": "String",
+        "required": false,
+        "description": "Whether channel is NSFW"
+      },
+      {
+        "name": "slowmode",
+        "type": "String",
+        "required": false,
+        "description": "Slowmode in seconds (0-21600)"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID (empty to remove from category)"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "Position in channel list"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "get_channel_info",
+    "description": "Get detailed information about a channel",
+    "file": "ChannelService",
+    "method": "getChannelInfo",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      }
+    ]
+  },
+  {
+    "name": "move_channel",
+    "description": "Move a channel to another category and/or change its position",
+    "file": "ChannelService",
+    "method": "moveChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Target category ID (empty to remove from category)"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "New position in channel list"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "get_server_info",
+    "description": "Get detailed discord server information",
+    "file": "DiscordService",
+    "method": "getServerInfo",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "list_emojis",
+    "description": "List all custom emojis on the server",
+    "file": "EmojiService",
+    "method": "listEmojis",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "get_emoji_details",
+    "description": "Get detailed information about a specific custom emoji",
+    "file": "EmojiService",
+    "method": "getEmojiDetails",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "emojiId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the emoji"
+      }
+    ]
+  },
+  {
+    "name": "create_emoji",
+    "description": "Upload a new custom emoji to the server. Provide image as base64 (Data URI or raw) OR a direct image URL. Max 256KB",
+    "file": "EmojiService",
+    "method": "createEmoji",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Emoji name (2-32 chars, alphanumeric and underscores only)"
+      },
+      {
+        "name": "image",
+        "type": "String",
+        "required": false,
+        "description": "Image as base64 Data URI (e.g. data:image/png;base64,...) or raw base64 string"
+      },
+      {
+        "name": "imageUrl",
+        "type": "String",
+        "required": false,
+        "description": "Direct URL to the image file (alternative to base64 image)"
+      },
+      {
+        "name": "roles",
+        "type": "String",
+        "required": false,
+        "description": "Comma-separated role IDs to restrict emoji usage (empty = everyone)"
+      }
+    ]
+  },
+  {
+    "name": "edit_emoji",
+    "description": "Edit an existing emoji's name or role restrictions",
+    "file": "EmojiService",
+    "method": "editEmoji",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "emojiId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the emoji to edit"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New name for the emoji"
+      },
+      {
+        "name": "roles",
+        "type": "String",
+        "required": false,
+        "description": "Comma-separated role IDs to restrict usage (empty string = unrestrict for everyone)"
+      }
+    ]
+  },
+  {
+    "name": "delete_emoji",
+    "description": "Permanently delete a custom emoji from the server",
+    "file": "EmojiService",
+    "method": "deleteEmoji",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "emojiId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the emoji to delete"
+      }
+    ]
+  },
+  {
+    "name": "create_forum_channel",
+    "description": "Create a new forum channel",
+    "file": "ForumService",
+    "method": "createForumChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Channel name"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID"
+      },
+      {
+        "name": "topic",
+        "type": "String",
+        "required": false,
+        "description": "Default post guidelines / topic"
+      },
+      {
+        "name": "nsfw",
+        "type": "String",
+        "required": false,
+        "description": "Whether channel is NSFW"
+      },
+      {
+        "name": "slowmode",
+        "type": "String",
+        "required": false,
+        "description": "Default slowmode for new posts in seconds (0-21600)"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "Position in channel list"
+      }
+    ]
+  },
+  {
+    "name": "edit_forum_channel",
+    "description": "Edit settings of a forum channel (name, topic, nsfw, slowmode, category, position, default sort, default layout)",
+    "file": "ForumService",
+    "method": "editForumChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Forum channel ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New channel name"
+      },
+      {
+        "name": "topic",
+        "type": "String",
+        "required": false,
+        "description": "New channel topic / post guidelines"
+      },
+      {
+        "name": "nsfw",
+        "type": "String",
+        "required": false,
+        "description": "Whether channel is NSFW"
+      },
+      {
+        "name": "slowmode",
+        "type": "String",
+        "required": false,
+        "description": "Default slowmode for new posts in seconds (0-21600)"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID (empty to remove from category)"
+      },
+      {
+        "name": "position",
+        "type": "String",
+        "required": false,
+        "description": "Position in channel list"
+      },
+      {
+        "name": "defaultSort",
+        "type": "String",
+        "required": false,
+        "description": "Default sort order: RECENT_ACTIVITY or CREATION_TIME"
+      },
+      {
+        "name": "defaultLayout",
+        "type": "String",
+        "required": false,
+        "description": "Default layout: LIST_VIEW or GALLERY_VIEW"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "list_forum_channels",
+    "description": "List all forum channels in the server",
+    "file": "ForumService",
+    "method": "listForumChannels",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "get_forum_channel_info",
+    "description": "Get detailed information about a forum channel including tags and settings",
+    "file": "ForumService",
+    "method": "getForumChannelInfo",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Forum channel ID"
+      }
+    ]
+  },
+  {
+    "name": "list_forum_tags",
+    "description": "List all available tags in a forum channel",
+    "file": "ForumService",
+    "method": "listForumTags",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Forum channel ID"
+      }
+    ]
+  },
+  {
+    "name": "create_forum_post",
+    "description": "Create a new forum post (thread) with an initial message in a forum channel",
+    "file": "ForumService",
+    "method": "createForumPost",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Forum channel ID"
+      },
+      {
+        "name": "title",
+        "type": "String",
+        "required": true,
+        "description": "Post title"
+      },
+      {
+        "name": "message",
+        "type": "String",
+        "required": true,
+        "description": "Content of the initial message"
+      },
+      {
+        "name": "tagIds",
+        "type": "String",
+        "required": false,
+        "description": "Comma-separated tag IDs to apply"
+      }
+    ]
+  },
+  {
+    "name": "list_forum_posts",
+    "description": "List active posts (threads) in a forum channel",
+    "file": "ForumService",
+    "method": "listForumPosts",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Forum channel ID"
+      }
+    ]
+  },
+  {
+    "name": "modify_forum_post",
+    "description": "Modify a forum post: lock/unlock, archive/unarchive, pin/unpin, or change applied tags",
+    "file": "ForumService",
+    "method": "modifyForumPost",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "postId",
+        "type": "String",
+        "required": true,
+        "description": "Forum post (thread) ID"
+      },
+      {
+        "name": "locked",
+        "type": "String",
+        "required": false,
+        "description": "Lock state (true/false)"
+      },
+      {
+        "name": "archived",
+        "type": "String",
+        "required": false,
+        "description": "Archive state (true/false)"
+      },
+      {
+        "name": "pinned",
+        "type": "String",
+        "required": false,
+        "description": "Pin state (true/false)"
+      },
+      {
+        "name": "tagIds",
+        "type": "String",
+        "required": false,
+        "description": "Comma-separated tag IDs to set (empty string to clear)"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for audit log"
+      }
+    ]
+  },
+  {
+    "name": "create_invite",
+    "description": "Create a new invite link for a specific channel",
+    "file": "InviteService",
+    "method": "createInvite",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the channel the invite directs to"
+      },
+      {
+        "name": "maxAge",
+        "type": "String",
+        "required": false,
+        "description": "Duration in seconds before expiry (0 = never, default 86400 = 24h)"
+      },
+      {
+        "name": "maxUses",
+        "type": "String",
+        "required": false,
+        "description": "Max number of uses (0 = unlimited, default 0)"
+      },
+      {
+        "name": "temporary",
+        "type": "String",
+        "required": false,
+        "description": "Whether members get temporary membership (kicked when disconnected unless role assigned)"
+      },
+      {
+        "name": "unique",
+        "type": "String",
+        "required": false,
+        "description": "Force creation of a new unique invite code"
+      }
+    ]
+  },
+  {
+    "name": "list_invites",
+    "description": "List all active invites on the server with their statistics",
+    "file": "InviteService",
+    "method": "listInvites",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "delete_invite",
+    "description": "Delete (revoke) an invite so the link stops working",
+    "file": "InviteService",
+    "method": "deleteInvite",
+    "params": [
+      {
+        "name": "inviteCode",
+        "type": "String",
+        "required": true,
+        "description": "Invite code or full URL (e.g. 'ABCde' or 'https://discord.gg/ABCde')"
+      }
+    ]
+  },
+  {
+    "name": "get_invite_details",
+    "description": "Get details about a specific invite (works for any public invite)",
+    "file": "InviteService",
+    "method": "getInviteDetails",
+    "params": [
+      {
+        "name": "inviteCode",
+        "type": "String",
+        "required": true,
+        "description": "Invite code or full URL (e.g. 'ABCde' or 'https://discord.gg/ABCde')"
+      },
+      {
+        "name": "withCounts",
+        "type": "String",
+        "required": false,
+        "description": "Whether to include approximate member counts (default true)"
+      }
+    ]
+  },
+  {
+    "name": "send_message",
+    "description": "Send a message to a specific channel",
+    "file": "MessageService",
+    "method": "sendMessage",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "message",
+        "type": "String",
+        "required": true,
+        "description": "Message content"
+      }
+    ]
+  },
+  {
+    "name": "edit_message",
+    "description": "Edit a message from a specific channel",
+    "file": "MessageService",
+    "method": "editMessage",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Specific message ID"
+      },
+      {
+        "name": "newMessage",
+        "type": "String",
+        "required": true,
+        "description": "New message content"
+      }
+    ]
+  },
+  {
+    "name": "delete_message",
+    "description": "Delete a message from a specific channel",
+    "file": "MessageService",
+    "method": "deleteMessage",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Specific message ID"
+      }
+    ]
+  },
+  {
+    "name": "read_messages",
+    "description": "Read message history from a specific channel, optionally paginated with before/after/around",
+    "file": "MessageService",
+    "method": "readMessages",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "count",
+        "type": "String",
+        "required": false,
+        "description": "Number of messages to retrieve (1-100)"
+      },
+      {
+        "name": "before",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages before this message"
+      },
+      {
+        "name": "after",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages after this message"
+      },
+      {
+        "name": "around",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages around this message"
+      }
+    ]
+  },
+  {
+    "name": "add_reaction",
+    "description": "Add a reaction (emoji) to a specific message",
+    "file": "MessageService",
+    "method": "addReaction",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Discord message ID"
+      },
+      {
+        "name": "emoji",
+        "type": "String",
+        "required": true,
+        "description": "Emoji (Unicode or string)"
+      }
+    ]
+  },
+  {
+    "name": "remove_reaction",
+    "description": "Remove a specified reaction (emoji) from a message",
+    "file": "MessageService",
+    "method": "removeReaction",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Discord message ID"
+      },
+      {
+        "name": "emoji",
+        "type": "String",
+        "required": true,
+        "description": "Emoji (Unicode or string)"
+      }
+    ]
+  },
+  {
+    "name": "get_attachment",
+    "description": "Get attachment metadata (filename, size, content type, URLs) from a specific message. Returns info only, does not download files.",
+    "file": "MessageService",
+    "method": "getAttachment",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Discord message ID"
+      },
+      {
+        "name": "attachmentId",
+        "type": "String",
+        "required": false,
+        "description": "Specific attachment ID (omit to get all attachments)"
+      }
+    ]
+  },
+  {
+    "name": "kick_member",
+    "description": "Kicks a member from the server. The user can rejoin with a new invite.",
+    "file": "ModerationService",
+    "method": "kickMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to kick"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for kicking (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "ban_member",
+    "description": "Bans a user from the server, preventing them from rejoining. Optionally deletes their recent messages.",
+    "file": "ModerationService",
+    "method": "banMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to ban"
+      },
+      {
+        "name": "deleteMessageSeconds",
+        "type": "String",
+        "required": false,
+        "description": "Duration in seconds for which to delete the user's messages (max 604800 = 7 days). 0 = no deletion."
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for the ban (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "unban_member",
+    "description": "Removes a ban from a user, allowing them to rejoin the server.",
+    "file": "ModerationService",
+    "method": "unbanMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to unban"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for removing the ban (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "timeout_member",
+    "description": "Disables communication for a member for a specified duration (Timeout/Mute). Max 28 days.",
+    "file": "ModerationService",
+    "method": "timeoutMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the member to timeout"
+      },
+      {
+        "name": "durationSeconds",
+        "type": "String",
+        "required": true,
+        "description": "Duration of the timeout in seconds (max 2419200 = 28 days)"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for the timeout (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "remove_timeout",
+    "description": "Removes a timeout (unmute) from a member before it expires.",
+    "file": "ModerationService",
+    "method": "removeTimeout",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the member to remove timeout from"
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for removing the timeout (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "set_nickname",
+    "description": "Changes a member's nickname on the server. Pass empty or null nick to reset to original username.",
+    "file": "ModerationService",
+    "method": "setNickname",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user"
+      },
+      {
+        "name": "nick",
+        "type": "String",
+        "required": false,
+        "description": "New nickname. Empty or null to reset to original username."
+      },
+      {
+        "name": "reason",
+        "type": "String",
+        "required": false,
+        "description": "Reason for the nickname change (visible in audit log)"
+      }
+    ]
+  },
+  {
+    "name": "get_bans",
+    "description": "Returns a list of banned users on the server with ban reasons.",
+    "file": "ModerationService",
+    "method": "getBans",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "limit",
+        "type": "String",
+        "required": false,
+        "description": "Maximum number of results to return (default 50)"
+      }
+    ]
+  },
+  {
+    "name": "list_roles",
+    "description": "Returns a list of all roles on the server along with their ID, names, colors, positions, and permissions",
+    "file": "RoleService",
+    "method": "listRoles",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "create_role",
+    "description": "Creates a new role on the server with specified parameters",
+    "file": "RoleService",
+    "method": "createRole",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Name of the new role"
+      },
+      {
+        "name": "color",
+        "type": "String",
+        "required": false,
+        "description": "Color value as integer (e.g., 16711680 for red). Default is 0"
+      },
+      {
+        "name": "hoist",
+        "type": "String",
+        "required": false,
+        "description": "Whether the role should be displayed separately in the sidebar. Default is false"
+      },
+      {
+        "name": "mentionable",
+        "type": "String",
+        "required": false,
+        "description": "Whether the role should be mentionable. Default is false"
+      },
+      {
+        "name": "permissions",
+        "type": "String",
+        "required": false,
+        "description": "Permissions bitfield for the role as string. Default is 0"
+      }
+    ]
+  },
+  {
+    "name": "edit_role",
+    "description": "Updates settings of an existing role. All parameters except guild_id and role_id are optional",
+    "file": "RoleService",
+    "method": "editRole",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "roleId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the role to edit"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New name for the role"
+      },
+      {
+        "name": "color",
+        "type": "String",
+        "required": false,
+        "description": "New color value as integer"
+      },
+      {
+        "name": "hoist",
+        "type": "String",
+        "required": false,
+        "description": "New hoist setting"
+      },
+      {
+        "name": "mentionable",
+        "type": "String",
+        "required": false,
+        "description": "New mentionable setting"
+      },
+      {
+        "name": "permissions",
+        "type": "String",
+        "required": false,
+        "description": "New permissions bitfield as string"
+      }
+    ]
+  },
+  {
+    "name": "delete_role",
+    "description": "Permanently deletes a role from the server",
+    "file": "RoleService",
+    "method": "deleteRole",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "roleId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the role to delete"
+      }
+    ]
+  },
+  {
+    "name": "assign_role",
+    "description": "Assigns a specified role to a user",
+    "file": "RoleService",
+    "method": "assignRole",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to receive the role"
+      },
+      {
+        "name": "roleId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the role to assign"
+      }
+    ]
+  },
+  {
+    "name": "remove_role",
+    "description": "Removes a specified role from a user",
+    "file": "RoleService",
+    "method": "removeRole",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user from whom to remove the role"
+      },
+      {
+        "name": "roleId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the role to remove"
+      }
+    ]
+  },
+  {
+    "name": "create_guild_scheduled_event",
+    "description": "Schedule a new event on the server (voice, stage, or external)",
+    "file": "ScheduledEventService",
+    "method": "createScheduledEvent",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Name of the event"
+      },
+      {
+        "name": "description",
+        "type": "String",
+        "required": false,
+        "description": "Description of the event"
+      },
+      {
+        "name": "scheduledStartTime",
+        "type": "String",
+        "required": true,
+        "description": "ISO8601 timestamp for when the event starts"
+      },
+      {
+        "name": "scheduledEndTime",
+        "type": "String",
+        "required": false,
+        "description": "ISO8601 timestamp for when the event ends (Required for External events)"
+      },
+      {
+        "name": "entityType",
+        "type": "String",
+        "required": true,
+        "description": "Type of event: 1=Stage Instance, 2=Voice, 3=External"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": false,
+        "description": "Channel ID (Required for types 1 and 2)"
+      },
+      {
+        "name": "location",
+        "type": "String",
+        "required": false,
+        "description": "Location or link (Required for type 3 - External)"
+      }
+    ]
+  },
+  {
+    "name": "edit_guild_scheduled_event",
+    "description": "Modify details of an existing event or change its status (start, complete, cancel)",
+    "file": "ScheduledEventService",
+    "method": "editScheduledEvent",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "eventId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the scheduled event"
+      },
+      {
+        "name": "status",
+        "type": "String",
+        "required": false,
+        "description": "New status: 1=Scheduled, 2=Active (start), 3=Completed, 4=Canceled"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New name"
+      },
+      {
+        "name": "description",
+        "type": "String",
+        "required": false,
+        "description": "New description"
+      },
+      {
+        "name": "scheduledStartTime",
+        "type": "String",
+        "required": false,
+        "description": "New ISO8601 start time"
+      },
+      {
+        "name": "location",
+        "type": "String",
+        "required": false,
+        "description": "New location (for External events)"
+      }
+    ]
+  },
+  {
+    "name": "delete_guild_scheduled_event",
+    "description": "Permanently delete a scheduled event",
+    "file": "ScheduledEventService",
+    "method": "deleteScheduledEvent",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "eventId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the scheduled event"
+      }
+    ]
+  },
+  {
+    "name": "list_guild_scheduled_events",
+    "description": "List all active and scheduled events on the server",
+    "file": "ScheduledEventService",
+    "method": "listScheduledEvents",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "withUserCount",
+        "type": "String",
+        "required": false,
+        "description": "Whether to include interested user count (default true)"
+      }
+    ]
+  },
+  {
+    "name": "get_guild_scheduled_event_users",
+    "description": "Get list of users interested in a scheduled event",
+    "file": "ScheduledEventService",
+    "method": "getScheduledEventUsers",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "eventId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the scheduled event"
+      },
+      {
+        "name": "limit",
+        "type": "String",
+        "required": false,
+        "description": "Max number of users to return (default 100)"
+      },
+      {
+        "name": "withMember",
+        "type": "String",
+        "required": false,
+        "description": "Whether to include full member data with roles (default true)"
+      }
+    ]
+  },
+  {
+    "name": "list_active_threads",
+    "description": "List all active threads in the server",
+    "file": "ThreadService",
+    "method": "listActiveThreads",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "get_user_id_by_name",
+    "description": "Get a Discord user's ID by username in a guild for ping usage <@id>.",
+    "file": "UserService",
+    "method": "getUserIdByName",
+    "params": [
+      {
+        "name": "username",
+        "type": "String",
+        "required": true,
+        "description": "Discord username (optionally username#discriminator)"
+      },
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      }
+    ]
+  },
+  {
+    "name": "send_private_message",
+    "description": "Send a private message to a specific user",
+    "file": "UserService",
+    "method": "sendPrivateMessage",
+    "params": [
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "Discord user ID"
+      },
+      {
+        "name": "message",
+        "type": "String",
+        "required": true,
+        "description": "Message content"
+      }
+    ]
+  },
+  {
+    "name": "edit_private_message",
+    "description": "Edit a private message from a specific user",
+    "file": "UserService",
+    "method": "editPrivateMessage",
+    "params": [
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "Discord user ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Specific message ID"
+      },
+      {
+        "name": "newMessage",
+        "type": "String",
+        "required": true,
+        "description": "New message content"
+      }
+    ]
+  },
+  {
+    "name": "delete_private_message",
+    "description": "Delete a private message from a specific user",
+    "file": "UserService",
+    "method": "deletePrivateMessage",
+    "params": [
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "Discord user ID"
+      },
+      {
+        "name": "messageId",
+        "type": "String",
+        "required": true,
+        "description": "Specific message ID"
+      }
+    ]
+  },
+  {
+    "name": "read_private_messages",
+    "description": "Read private message history from a specific user, optionally paginated with before/after/around",
+    "file": "UserService",
+    "method": "readPrivateMessages",
+    "params": [
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "Discord user ID"
+      },
+      {
+        "name": "count",
+        "type": "String",
+        "required": false,
+        "description": "Number of messages to retrieve (1-100)"
+      },
+      {
+        "name": "before",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages before this message"
+      },
+      {
+        "name": "after",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages after this message"
+      },
+      {
+        "name": "around",
+        "type": "String",
+        "required": false,
+        "description": "Message ID to fetch messages around this message"
+      }
+    ]
+  },
+  {
+    "name": "create_voice_channel",
+    "description": "Create a new voice channel in a guild",
+    "file": "VoiceChannelService",
+    "method": "createVoiceChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Channel name"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID"
+      },
+      {
+        "name": "userLimit",
+        "type": "String",
+        "required": false,
+        "description": "Max users (0 = unlimited, max 99)"
+      },
+      {
+        "name": "bitrate",
+        "type": "String",
+        "required": false,
+        "description": "Audio bitrate in bits/s (e.g. 64000). Max depends on server boost level"
+      }
+    ]
+  },
+  {
+    "name": "create_stage_channel",
+    "description": "Create a new stage channel for audio events in a guild",
+    "file": "VoiceChannelService",
+    "method": "createStageChannel",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Channel name"
+      },
+      {
+        "name": "categoryId",
+        "type": "String",
+        "required": false,
+        "description": "Category ID"
+      },
+      {
+        "name": "bitrate",
+        "type": "String",
+        "required": false,
+        "description": "Audio bitrate in bits/s (e.g. 64000)"
+      }
+    ]
+  },
+  {
+    "name": "edit_voice_channel",
+    "description": "Edit settings of a voice or stage channel (name, bitrate, user limit, region)",
+    "file": "VoiceChannelService",
+    "method": "editVoiceChannel",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Channel ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": false,
+        "description": "New channel name"
+      },
+      {
+        "name": "bitrate",
+        "type": "String",
+        "required": false,
+        "description": "New bitrate in bits/s"
+      },
+      {
+        "name": "userLimit",
+        "type": "String",
+        "required": false,
+        "description": "New user limit (0 = unlimited)"
+      },
+      {
+        "name": "rtcRegion",
+        "type": "String",
+        "required": false,
+        "description": "Voice region (e.g. 'rotterdam', 'us-east'). Empty for automatic"
+      }
+    ]
+  },
+  {
+    "name": "move_member",
+    "description": "Move a member to another voice channel. The member must already be connected to a voice channel.",
+    "file": "VoiceChannelService",
+    "method": "moveMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to move"
+      },
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the target voice channel"
+      }
+    ]
+  },
+  {
+    "name": "disconnect_member",
+    "description": "Disconnect a member from their current voice channel",
+    "file": "VoiceChannelService",
+    "method": "disconnectMember",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user to disconnect"
+      }
+    ]
+  },
+  {
+    "name": "modify_voice_state",
+    "description": "Server mute or deafen a member across all voice channels. The member must be in a voice channel.",
+    "file": "VoiceChannelService",
+    "method": "modifyVoiceState",
+    "params": [
+      {
+        "name": "guildId",
+        "type": "String",
+        "required": false,
+        "description": "Discord server ID"
+      },
+      {
+        "name": "userId",
+        "type": "String",
+        "required": true,
+        "description": "ID of the user"
+      },
+      {
+        "name": "mute",
+        "type": "String",
+        "required": false,
+        "description": "Whether to server-mute the user's microphone"
+      },
+      {
+        "name": "deafen",
+        "type": "String",
+        "required": false,
+        "description": "Whether to server-deafen the user's audio"
+      }
+    ]
+  },
+  {
+    "name": "create_webhook",
+    "description": "Create a new webhook on a specific channel",
+    "file": "WebhookService",
+    "method": "createWebhook",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      },
+      {
+        "name": "name",
+        "type": "String",
+        "required": true,
+        "description": "Webhook name"
+      }
+    ]
+  },
+  {
+    "name": "delete_webhook",
+    "description": "Delete a webhook",
+    "file": "WebhookService",
+    "method": "deleteWebhook",
+    "params": [
+      {
+        "name": "webhookId",
+        "type": "String",
+        "required": true,
+        "description": "Discord webhook ID"
+      }
+    ]
+  },
+  {
+    "name": "list_webhooks",
+    "description": "List of webhooks on a specific channel",
+    "file": "WebhookService",
+    "method": "listWebhooks",
+    "params": [
+      {
+        "name": "channelId",
+        "type": "String",
+        "required": true,
+        "description": "Discord channel ID"
+      }
+    ]
+  },
+  {
+    "name": "send_webhook_message",
+    "description": "Send a message via webhook",
+    "file": "WebhookService",
+    "method": "sendWebhookMessage",
+    "params": [
+      {
+        "name": "webhookUrl",
+        "type": "String",
+        "required": true,
+        "description": "Discord webhook link"
+      },
+      {
+        "name": "message",
+        "type": "String",
+        "required": true,
+        "description": "Message content"
+      }
+    ]
+  }
+]
