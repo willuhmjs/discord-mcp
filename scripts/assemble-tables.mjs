@@ -10,6 +10,7 @@ const readmePath = join(root, 'README.md');
 
 const ORDER = [
   'messages.md',
+  'direct-messages-users.md',
   'channels.md',
   'voice-forums.md',
   'threads-members.md',
