@@ -16,7 +16,7 @@ interface LegacyTool {
 const fixturePath = join(
   dirname(fileURLToPath(import.meta.url)),
   'fixtures',
-  'legacy-tools.json',
+  'tool-contract.json',
 );
 const legacyTools: LegacyTool[] = JSON.parse(readFileSync(fixturePath, 'utf8'));
 
@@ -49,15 +49,15 @@ async function listTools() {
   return { count, tools };
 }
 
-describe('legacy compatibility', () => {
-  it('registers all 75 legacy tool names', async () => {
+describe('tool contract', () => {
+  it('registers every contracted tool name', async () => {
     const { tools } = await listTools();
     const names = new Set(tools.map((t) => t.name));
     const missing = legacyTools.filter((t) => !names.has(t.name)).map((t) => t.name);
     expect(missing).toEqual([]);
   });
 
-  it('keeps every legacy param, with no new required params', async () => {
+  it('keeps every contracted param, with no new required params', async () => {
     const { tools } = await listTools();
     const byName = new Map(tools.map((t) => [t.name, t]));
 
@@ -78,7 +78,7 @@ describe('legacy compatibility', () => {
       for (const req of required) {
         expect(
           legacyRequired.has(req),
-          `${legacy.name}: param "${req}" is required but was optional (or absent) in the legacy tool`,
+          `${legacy.name}: param "${req}" is required but was optional (or absent) in the contract`,
         ).toBe(true);
       }
     }

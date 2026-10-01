@@ -1,19 +1,16 @@
 # discord-mcp
 
-An MCP server that exposes the Discord API to LLM agents. Node.js + discord.js +
-TypeScript rewrite of [SaseQ/discord-mcp](https://github.com/SaseQ/discord-mcp)
-(Java/Spring/JDA) — a **drop-in replacement** for all 75 of its tools, plus the
-rich-messaging, interactions, threads, AutoMod and server-config coverage the
-original lacked.
-
-Built for [smartbot](https://github.com/willuhmjs/smartbot), a Discord bot that
-lets an LLM call these tools over MCP, but works with any MCP client
-(Claude, Inspector, ...).
+An MCP server that exposes the Discord API to LLM agents — Node.js +
+discord.js + TypeScript. Gives an LLM **168 tools** to run a Discord server:
+reading and posting messages, moderating, managing channels, roles, events,
+invites, webhooks, AutoMod and more, over any MCP client (Claude, Inspector,
+your own bot, ...).
 
 ## Highlights
 
-- **All 75 legacy tools**, same names, same parameters (`send_message`,
-  `kick_member`, `create_forum_channel`, ...). smartbot connects unchanged.
+- **Complete Discord coverage**: 168 tools across messages, channels,
+  threads, members, moderation, roles, forums, voice/stage, expressions,
+  events, invites, webhooks, AutoMod and server config.
 - **Rich messages**: embeds, Components V2, polls, files, replies, forwards,
   stickers, silent mode, allowed-mention policies — validated before anything
   reaches Discord, with errors that name the bad field
@@ -21,9 +18,6 @@ lets an LLM call these tools over MCP, but works with any MCP client
 - **Interactions**: role menus that survive restarts (behaviour encoded in
   `mcp:` custom ids), ephemeral canned replies, and an interaction log the LLM
   can read.
-- **Full guild surface**: threads, members, moderation, roles, AutoMod,
-  welcome screen / onboarding / widgets / templates, events, invites,
-  webhooks, emoji/stickers/soundboard, audit log.
 - **Security by default**: binds `127.0.0.1`, every URL fetch goes through a
   SSRF-guarded fetcher (private/metadata IP blocking, redirect re-checks, size
   and content-type limits), webhook tokens are never echoed back.
@@ -52,10 +46,10 @@ Output: `ready as <bot tag>, <N> tools`, then it serves MCP on
 | `DISCORD_TOKEN` | — (required) | Bot token. Exit non-zero with a readable error if invalid. |
 | `DISCORD_GUILD_ID` | — | Default guild for tools when `guildId` is omitted. |
 | `ENABLE_MEMBERS_INTENT` | off | Enables the privileged GuildMembers intent. Member-list tools degrade with a clear message when off. |
-| `HOST` / `SERVER_ADDRESS` | `127.0.0.1` | HTTP bind address. `SERVER_ADDRESS` is the legacy Java name. |
-| `PORT` / `SERVER_PORT` | `8085` | HTTP port. `SERVER_PORT` is the legacy name. |
+| `HOST` / `SERVER_ADDRESS` | `127.0.0.1` | HTTP bind address. `SERVER_ADDRESS` is a legacy alias. |
+| `PORT` / `SERVER_PORT` | `8085` | HTTP port. `SERVER_PORT` is a legacy alias. |
 | `MCP_TRANSPORT` | `http` | `stdio` to speak MCP on stdin/stdout instead of HTTP. |
-| `SPRING_PROFILES_ACTIVE` | — | Legacy compat: if set to anything other than `http`, stdio mode (matches the Java server's behaviour). |
+| `SPRING_PROFILES_ACTIVE` | — | Legacy compatibility: if set to anything other than `http`, stdio mode is used. |
 
 ### Intents to enable in the developer portal
 
@@ -77,8 +71,7 @@ config, invites, webhooks, DMs) is unprivileged and needs no portal toggle.
 - **stdio:** `MCP_TRANSPORT=stdio` (or `SPRING_PROFILES_ACTIVE` ≠ `http`) —
   status logs go to stderr, protocol on stdout.
 
-smartbot's streamable-HTTP MCP client connects to `http://127.0.0.1:8085/mcp`
-with no changes.
+Any streamable-HTTP MCP client connects to `http://127.0.0.1:8085/mcp`.
 
 ## Conventions (what tool consumers rely on)
 
@@ -92,7 +85,7 @@ with no changes.
   `Discord API error 50013 (HTTP 403): Missing Access — ... role is at/above
   its highest role`.
 - Every mutating tool takes an optional `reason` for the audit log.
-- List tools cap output around 6 KB (smartbot cuts results at 6000 chars).
+- List tools cap output around 6 KB to stay within common tool-result budgets.
 
 ### Rich message parameters
 
@@ -131,7 +124,7 @@ them, encoded in `custom_id` so nothing is lost on restart:
 
 ### Messages
 
-`| Tool | Key params | Requester permission |` — requester permission is what the calling Discord user (not the bot) needs, for smartbot's permissions.py. Optional params are marked with `?`.
+`| Tool | Key params | Requester permission |` — requester permission is what the calling Discord user (not the bot) needs, useful if you gate these tools behind per-user permission checks. Optional params are marked with `?`.
 
 | Tool | Key params | Requester permission |
 |---|---|---|
@@ -159,10 +152,9 @@ them, encoded in `custom_id` so nothing is lost on restart:
 
 ### Channels
 
-All tools in `src/tools/channels.ts`. Every Discord ID is a string. Legacy tools
-(`create_text_channel`, the category tools, the permission-overwrite tools, …) keep the
-exact legacy param names; boolean/number params accept both native JSON values and their
-string spellings.
+All tools in `src/tools/channels.ts`. Every Discord ID is a string. Core tool
+names keep their classic parameter names; boolean/number params accept both
+native JSON values and their string spellings.
 
 | Tool | Key params | Requester permission |
 | --- | --- | --- |
@@ -433,19 +425,6 @@ Self-service role menus (handled automatically via `mcp:` custom ids — no stat
   tokens or URLs.
 - No server-side file reads: no tool accepts a filesystem path.
 
-## Migrating from SaseQ/discord-mcp (Java)
-
-1. Point your MCP client at the same address (`SERVER_ADDRESS`/`SERVER_PORT`
-   are still honored; new names are `HOST`/`PORT`).
-2. Replace the `java -jar ... SPRING_PROFILES_ACTIVE=http` invocation with
-   `node dist/index.js` (or `MCP_TRANSPORT=stdio` for stdio setups — the
-   `SPRING_PROFILES_ACTIVE` logic behaves the same).
-3. All 75 tool names and their parameters are unchanged; new parameters on
-   existing tools are all optional.
-4. If you run smartbot: add the new tools to `permissions.py`
-   (`TOOL_PERMISSIONS` with the Perm column of the tables above,
-   `POSTING_TOOLS`, `MEMBER_TARGET_TOOLS`, `ROLE_TARGET_TOOLS`).
-
 ## Development
 
 ```bash
@@ -457,9 +436,9 @@ npm run typecheck    # tsc --noEmit
 
 Tests cover the validators (embed/poll/component limits, V2 exclusivity), the
 guarded fetcher (private IPs, redirects, size), message formatting, and a
-compatibility gate that asserts all 75 legacy tools exist with their legacy
-parameters (fixture generated from the Java sources). No live Discord token
-needed.
+contract gate that locks every tool name and parameter set against
+`tests/fixtures/tool-contract.json` so the tool surface stays stable. No live
+Discord token needed.
 
 `TESTING.md` is the manual checklist for a run in a real test guild.
 

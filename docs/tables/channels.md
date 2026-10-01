@@ -1,9 +1,8 @@
 # Channel tools
 
-All tools in `src/tools/channels.ts`. Every Discord ID is a string. Legacy tools
-(`create_text_channel`, the category tools, the permission-overwrite tools, …) keep the
-exact legacy param names; boolean/number params accept both native JSON values and their
-string spellings.
+All tools in `src/tools/channels.ts`. Every Discord ID is a string. Core tool
+names keep their classic parameter names; boolean/number params accept both
+native JSON values and their string spellings.
 
 | Tool | Key params | Requester permission |
 | --- | --- | --- |

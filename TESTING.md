@@ -14,14 +14,14 @@ DISCORD_TOKEN=... DISCORD_GUILD_ID=<test guild id> node dist/index.js
 ## Transport
 
 - [ ] `curl -s localhost:8085/health` → `ok` (503 before the client is ready)
-- [ ] smartbot connects unchanged and logs all tools
+- [ ] an MCP client (e.g. `npx @modelcontextprotocol/inspector`) connects and lists all tools
 - [ ] `MCP_TRANSPORT=stdio` mode: `DISCORD_TOKEN=... MCP_TRANSPORT=stdio node dist/index.js` speaks MCP on stdin/stdout (e.g. via `npx @modelcontextprotocol/inspector`)
 - [ ] bad token → exits non-zero with a clear 401 message
 - [ ] token with intents disabled in the portal → exits non-zero mentioning code 4014 and the developer portal
 
 ## P0 rich messages
 
-- [ ] `send_message` with `message` only (legacy path still works)
+- [ ] `send_message` with `message` only (plain-text path still works)
 - [ ] `send_message` with 2 embeds (one with `#RRGGBB` color, one with fields) — verify colors and layout
 - [ ] `send_message` with `embedsJson` referencing `attachment://file.png` + `filesJson: [{"url":"..."}]`
 - [ ] `send_message` with one link button (`componentsJson` action row, style 5, url) and one interactive button (style 1, custom_id `mcp:reply:<base64>`) — click both; the reply button answers ephemerally; `list_interactions` shows the click
@@ -78,8 +78,3 @@ DISCORD_TOKEN=... DISCORD_GUILD_ID=<test guild id> node dist/index.js
 - [ ] `send_message` with a 30 MiB `filesJson` url → rejected on the size cap
 - [ ] server bound to 127.0.0.1 by default (`ss -ltnp | grep 8085`)
 
-## smartbot end-to-end
-
-- [ ] `send_message` with embeds + link button via a chat request; reply with NO_REPLY suppression works
-- [ ] posting `@everyone` as a non-moderator → smartbot denies (POSTING_TOOLS guard, unchanged)
-- [ ] new tools need `permissions.py` entries — without them smartbot requires administrator by default

@@ -1,6 +1,6 @@
 # Message tools
 
-`| Tool | Key params | Requester permission |` — requester permission is what the calling Discord user (not the bot) needs, for smartbot's permissions.py. Optional params are marked with `?`.
+`| Tool | Key params | Requester permission |` — requester permission is what the calling Discord user (not the bot) needs, useful if you gate these tools behind per-user permission checks. Optional params are marked with `?`.
 
 | Tool | Key params | Requester permission |
 |---|---|---|

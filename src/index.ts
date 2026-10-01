@@ -31,7 +31,8 @@ function transportMode(): 'http' | 'stdio' {
   const explicit = env('MCP_TRANSPORT')?.toLowerCase();
   if (explicit === 'stdio') return 'stdio';
   if (explicit === 'http') return 'http';
-  // Java-compat: the old server only served HTTP under the "http" profile.
+  // Compatibility alias: SPRING_PROFILES_ACTIVE historically meant HTTP mode
+  // when set to "http"; anything else falls back to stdio.
   const spring = env('SPRING_PROFILES_ACTIVE')?.toLowerCase();
   if (spring && spring !== 'http') return 'stdio';
   return 'http';

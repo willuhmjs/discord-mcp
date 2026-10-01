@@ -68,7 +68,7 @@ export function createRegistrar(server: McpServer): Registrar {
 
 // ---------------------------------------------------------------------------
 // Shared input-schema params. Keep every ID a string (snowflakes overflow JS
-// numbers), and keep guildId optional everywhere (smartbot force-fills it).
+// numbers), and keep guildId optional everywhere (clients commonly force-fill it).
 // ---------------------------------------------------------------------------
 
 export const snowflakeId = (desc: string) => z.string().describe(desc);

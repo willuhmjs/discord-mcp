@@ -129,7 +129,7 @@ export function formatMessageLine(m: FormatMessage): string {
   return `[${isoTime(m.createdTimestamp)}] ${m.authorName} (id ${m.authorId}) [msg ${m.id}]: ${content}${extra}`;
 }
 
-/** Truncate to a budget (smartbot cuts tool results at 6000 chars). */
+/** Truncate to a budget (MCP clients commonly cap tool results at 6000 chars). */
 export function truncate(text: string, max = 6000): string {
   if (text.length <= max) return text;
   return `${text.slice(0, max - 20)}\n…(truncated)`;

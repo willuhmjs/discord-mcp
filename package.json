@@ -1,7 +1,7 @@
 {
   "name": "discord-mcp",
   "version": "1.0.0",
-  "description": "MCP server exposing the full Discord API for LLM agents. Node.js + discord.js replacement for SaseQ/discord-mcp.",
+  "description": "MCP server exposing the full Discord API to LLM agents — rich messages, interactions, threads, moderation, AutoMod and server config on discord.js.",
   "type": "module",
   "main": "dist/index.js",
   "engines": {
