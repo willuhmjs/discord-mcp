@@ -1,10 +1,7 @@
-import { randomUUID } from 'node:crypto';
-import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
+import { createMcpHttpServer } from './http.js';
 import { InteractionLog, type ToolContext } from './lib/context.js';
 import { attachInteractionHandler, registerAllTools } from './tools/index.js';
 
@@ -81,7 +78,7 @@ const ctx: ToolContext = {
   interactions: new InteractionLog(),
 };
 
-// Register tools up front so they are all listed on the first tools/list.
+// stdio serves one client, so a single server is enough; HTTP builds one per session (see http.ts).
 const mcpServer = new McpServer({ name: 'discord-mcp', version: VERSION });
 const toolCount = registerAllTools(mcpServer, ctx);
 
@@ -134,100 +131,14 @@ if (mode === 'stdio') {
   const transport = new StdioServerTransport();
   await mcpServer.connect(transport);
 } else {
-  const sessions = new Map<string, StreamableHTTPServerTransport>();
-
-  function jsonError(res: ServerResponse, status: number, message: string): void {
-    res.writeHead(status, { 'content-type': 'application/json' });
-    res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32000, message }, id: null }));
-  }
-
-  function sessionHeader(req: IncomingMessage): string | undefined {
-    const value = req.headers['mcp-session-id'];
-    return Array.isArray(value) ? value[0] : value;
-  }
-
-  async function readJsonBody(req: IncomingMessage): Promise<unknown> {
-    const chunks: Buffer[] = [];
-    let total = 0;
-    for await (const chunk of req) {
-      total += (chunk as Buffer).byteLength;
-      if (total > 32 * 1024 * 1024) throw new Error('request body too large');
-      chunks.push(chunk as Buffer);
-    }
-    if (!chunks.length) return undefined;
-    return JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  }
-
-  const httpServer = createServer(async (req, res) => {
-    const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
-    try {
-      if (url.pathname === '/health') {
-        if (ready) {
-          res.writeHead(200, { 'content-type': 'text/plain' });
-          res.end('ok');
-        } else {
-          res.writeHead(503, { 'content-type': 'text/plain' });
-          res.end('discord client not ready');
-        }
-        return;
-      }
-      if (url.pathname !== '/mcp') {
-        jsonError(res, 404, `not found: ${url.pathname} (MCP endpoint is POST /mcp, health is GET /health)`);
-        return;
-      }
-      const sessionId = sessionHeader(req);
-
-      if (req.method === 'POST') {
-        let body: unknown;
-        try {
-          body = await readJsonBody(req);
-        } catch {
-          jsonError(res, 400, 'invalid JSON body');
-          return;
-        }
-        let transport = sessionId ? sessions.get(sessionId) : undefined;
-        if (!transport) {
-          if (!sessionId && isInitializeRequest(body)) {
-            const fresh = new StreamableHTTPServerTransport({
-              sessionIdGenerator: () => randomUUID(),
-              enableJsonResponse: true,
-            });
-            fresh.onclose = () => {
-              if (fresh.sessionId) sessions.delete(fresh.sessionId);
-            };
-            await mcpServer.connect(fresh);
-            sessions.set(fresh.sessionId!, fresh);
-            transport = fresh;
-          } else {
-            jsonError(
-              res,
-              400,
-              'Bad Request: no valid session. POST an initialize request without an Mcp-Session-Id header first.',
-            );
-            return;
-          }
-        }
-        await transport.handleRequest(req, res, body);
-        return;
-      }
-
-      if (req.method === 'DELETE' || req.method === 'GET') {
-        const transport = sessionId ? sessions.get(sessionId) : undefined;
-        if (!transport) {
-          jsonError(res, 400, 'Bad Request: unknown or missing Mcp-Session-Id header');
-          return;
-        }
-        // DELETE terminates the session; GET gets 405 from the transport in JSON mode.
-        await transport.handleRequest(req, res);
-        return;
-      }
-
-      jsonError(res, 405, `method ${req.method} not allowed`);
-    } catch (err) {
-      log(`error handling ${req.method} ${url.pathname}:`, err);
-      if (!res.headersSent) jsonError(res, 500, 'internal server error');
-      else res.end();
-    }
+  const httpServer = createMcpHttpServer({
+    newMcpServer: () => {
+      const server = new McpServer({ name: 'discord-mcp', version: VERSION });
+      registerAllTools(server, ctx);
+      return server;
+    },
+    isReady: () => ready,
+    log,
   });
 
   await new Promise<void>((resolve) => {
