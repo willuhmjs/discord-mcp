@@ -48,6 +48,7 @@ Output: `ready as <bot tag>, <N> tools`, then it serves MCP on
 | `ENABLE_MEMBERS_INTENT` | off | Enables the privileged GuildMembers intent. Member-list tools degrade with a clear message when off. |
 | `HOST` / `SERVER_ADDRESS` | `127.0.0.1` | HTTP bind address. `SERVER_ADDRESS` is a legacy alias. |
 | `PORT` / `SERVER_PORT` | `8085` | HTTP port. `SERVER_PORT` is a legacy alias. |
+| `MCP_SOCKET` | — | Path of a Unix socket to listen on instead of `HOST:PORT` (HTTP mode only). See [Keeping it private](#keeping-it-private). |
 | `MCP_TRANSPORT` | `http` | `stdio` to speak MCP on stdin/stdout instead of HTTP. |
 | `SPRING_PROFILES_ACTIVE` | — | Legacy compatibility: if set to anything other than `http`, stdio mode is used. |
 
@@ -72,6 +73,28 @@ config, invites, webhooks, DMs) is unprivileged and needs no portal toggle.
   status logs go to stderr, protocol on stdout.
 
 Any streamable-HTTP MCP client connects to `http://127.0.0.1:8085/mcp`.
+
+## Keeping it private
+
+The HTTP endpoint has no authentication: anyone who can reach it can use every tool as the bot. By
+default it binds to `127.0.0.1`, which is fine on a machine only you use, but on a shared machine every
+other account can connect to a loopback port.
+
+Set `MCP_SOCKET` to a path instead and the server listens on a Unix socket, which the operating system
+protects. Put it in a directory only you can enter:
+
+```bash
+mkdir -m 700 ~/.mcp
+MCP_SOCKET=~/.mcp/discord.sock DISCORD_TOKEN=... node dist/index.js
+curl --unix-socket ~/.mcp/discord.sock http://localhost/health
+```
+
+The socket file is created with mode 600, and a socket left by a crashed run is replaced. The server refuses
+to start if the path is a regular file or is still being served by another process. Clients connect
+to `http://localhost/mcp` through the socket; the usual HTTP clients support this (in Python, an
+`httpx` client with `transport=httpx.AsyncHTTPTransport(uds=path)`).
+
+Sockets don't work reliably on network file systems such as NFS. Use a local directory like `/tmp/.<name>`.
 
 ## Conventions (what tool consumers rely on)
 

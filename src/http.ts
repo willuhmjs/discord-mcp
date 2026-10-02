@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
+import { chmodSync, lstatSync, unlinkSync } from 'node:fs';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
+import { connect } from 'node:net';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
@@ -115,4 +117,60 @@ export function createMcpHttpServer(options: McpHttpOptions): Server {
       else res.end();
     }
   });
+}
+
+/** True if something is accepting connections on the Unix socket at `path`. */
+function socketIsLive(path: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const probe = connect(path);
+    probe.once('connect', () => {
+      probe.destroy();
+      resolve(true);
+    });
+    probe.once('error', () => resolve(false));
+  });
+}
+
+/**
+ * Listen on a Unix socket instead of a TCP port. Connecting needs filesystem access to the socket, so
+ * put it in a directory only its owner can enter (mode 700): nobody else on the machine can then reach
+ * the server or even see what is in that directory. The socket itself is created with mode 600.
+ *
+ * A socket left behind by a crashed run is replaced. Anything else at `path` (a regular file, or a
+ * socket that another instance is still serving) makes this throw instead of being overwritten.
+ */
+export async function listenOnSocket(server: Server, path: string): Promise<void> {
+  let existing;
+  try {
+    existing = lstatSync(path);
+  } catch {
+    existing = undefined;
+  }
+  if (existing) {
+    if (!existing.isSocket()) throw new Error(`${path} exists and is not a socket; refusing to remove it`);
+    if (await socketIsLive(path)) throw new Error(`${path} is already being served by another process`);
+    unlinkSync(path);
+  }
+  const previousUmask = process.umask(0o177);
+  try {
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(path, () => {
+        server.off('error', reject);
+        resolve();
+      });
+    });
+  } finally {
+    process.umask(previousUmask);
+  }
+  chmodSync(path, 0o600);
+}
+
+/** Delete the socket file on shutdown (ignores a missing file). */
+export function removeSocket(path: string): void {
+  try {
+    unlinkSync(path);
+  } catch {
+    // already gone
+  }
 }

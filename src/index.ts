@@ -1,7 +1,7 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { createMcpHttpServer } from './http.js';
+import { createMcpHttpServer, listenOnSocket, removeSocket } from './http.js';
 import { InteractionLog, type ToolContext } from './lib/context.js';
 import { attachInteractionHandler, registerAllTools } from './tools/index.js';
 
@@ -38,6 +38,8 @@ function transportMode(): 'http' | 'stdio' {
 const TOKEN = process.env.DISCORD_TOKEN;
 const HOST = env('HOST', 'SERVER_ADDRESS') ?? '127.0.0.1';
 const PORT = Number.parseInt(env('PORT', 'SERVER_PORT') ?? '8085', 10);
+// When set, HTTP mode listens on this Unix socket instead of HOST:PORT (see listenOnSocket in http.ts).
+const SOCKET = env('MCP_SOCKET');
 const DEFAULT_GUILD_ID = process.env.DISCORD_GUILD_ID;
 const MEMBERS_INTENT = /^(1|true|yes|on)$/i.test(process.env.ENABLE_MEMBERS_INTENT ?? '');
 
@@ -141,15 +143,25 @@ if (mode === 'stdio') {
     log,
   });
 
-  await new Promise<void>((resolve) => {
-    httpServer.listen(PORT, HOST, resolve);
-  });
-  log(`discord-mcp ${VERSION} listening on http://${HOST}:${PORT}/mcp (${toolCount} tools)`);
-  log(`health: http://${HOST}:${PORT}/health`);
+  if (SOCKET) {
+    try {
+      await listenOnSocket(httpServer, SOCKET);
+    } catch (err) {
+      fatal(`could not listen on MCP_SOCKET ${SOCKET}: ${(err as Error).message}`);
+    }
+    log(`discord-mcp ${VERSION} listening on unix socket ${SOCKET} (${toolCount} tools)`);
+  } else {
+    await new Promise<void>((resolve) => {
+      httpServer.listen(PORT, HOST, resolve);
+    });
+    log(`discord-mcp ${VERSION} listening on http://${HOST}:${PORT}/mcp (${toolCount} tools)`);
+    log(`health: http://${HOST}:${PORT}/health`);
+  }
 
   const shutdown = (): void => {
     log('shutting down');
     httpServer.close();
+    if (SOCKET) removeSocket(SOCKET);
     client.destroy();
     process.exit(0);
   };
