@@ -42,9 +42,9 @@ function documentedToolNames(markdown: string): Set<string> {
 }
 
 describe('documentation', () => {
-  it('lists every registered tool in the README tables', async () => {
-    const documented = documentedToolNames(readFileSync(join(root, 'README.md'), 'utf8'));
+  it('lists every registered tool in docs/TOOLS.md', async () => {
+    const documented = documentedToolNames(readFileSync(join(root, 'docs', 'TOOLS.md'), 'utf8'));
     const undocumented = (await registeredToolNames()).filter((name) => !documented.has(name));
-    expect(undocumented, 'add these tools to docs/tables/*.md and the README').toEqual([]);
+    expect(undocumented, 'add these tools to docs/TOOLS.md').toEqual([]);
   });
 });
