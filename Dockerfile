@@ -1,5 +1,5 @@
 # Build stage: install deps and compile TypeScript.
-FROM node:22-slim AS build
+FROM node:26-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -8,7 +8,7 @@ COPY src ./src
 RUN npm run build && npm prune --omit=dev
 
 # Runtime stage: production deps + compiled output only.
-FROM node:22-slim
+FROM node:26-slim
 WORKDIR /app
 ENV NODE_ENV=production
 # In containers the MCP endpoint is usually reached from another container,
