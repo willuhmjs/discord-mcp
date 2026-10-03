@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.willuhmjs/discord-mcp",
+  "title": "Discord",
+  "description": "Run a Discord server from an LLM: 168 tools for messages, moderation, channels, roles, threads, events, webhooks and AutoMod.",
+  "repository": {
+    "url": "https://github.com/willuhmjs/discord-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/willuhmjs/discord-mcp#readme",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@willuhmjs/discord-mcp",
+      "version": "1.0.0",
+      "runtimeHint": "npx",
+      "transport": { "type": "stdio" },
+      "packageArguments": [{ "type": "positional", "value": "--stdio" }],
+      "environmentVariables": [
+        {
+          "name": "DISCORD_TOKEN",
+          "description": "Discord bot token from https://discord.com/developers/applications",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "DISCORD_GUILD_ID",
+          "description": "Default server (guild) ID used when a tool call omits guildId",
+          "isRequired": false
+        },
+        {
+          "name": "ENABLE_MEMBERS_INTENT",
+          "description": "Set to 1 to enable the privileged Server Members intent (needed for member-list tools)",
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

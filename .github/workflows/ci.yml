@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm test
+      # Catches a broken `files`/`bin` setup before a release does.
+      - name: Smoke-test the packed tarball
+        run: |
+          npm pack --silent
+          tarball=$(ls willuhmjs-discord-mcp-*.tgz)
+          tar -tzf "$tarball" | grep -q 'package/dist/index.js'
+          mkdir /tmp/smoke && cd /tmp/smoke && npm init -y >/dev/null
+          npm install "$GITHUB_WORKSPACE/$tarball" >/dev/null
+          # No token: must exit non-zero with the readable error, not crash on import.
+          if DISCORD_TOKEN= npx --no-install discord-mcp --stdio >out.txt 2>&1; then cat out.txt; exit 1; fi
+          grep -q 'DISCORD_TOKEN is required' out.txt
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
