@@ -1,6 +1,6 @@
 {
   "name": "@willuhmjs/discord-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "mcpName": "io.github.willuhmjs/discord-mcp",
   "description": "MCP server exposing the full Discord API to LLM agents — rich messages, interactions, threads, moderation, AutoMod and server config on discord.js.",
   "keywords": [
