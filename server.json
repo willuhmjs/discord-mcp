@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.willuhmjs/discord-mcp",
   "title": "Discord",
-  "description": "Run a Discord server from an LLM: 168 tools for messages, moderation, channels, roles, threads, events, webhooks and AutoMod.",
+  "description": "Discord for LLM agents: 168 tools for messages, moderation, channels, roles, threads and AutoMod.",
   "repository": {
     "url": "https://github.com/willuhmjs/discord-mcp",
     "source": "github"
