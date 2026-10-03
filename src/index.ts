@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+import { readFileSync } from 'node:fs';
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -5,7 +7,10 @@ import { createMcpHttpServer, listenOnSocket, removeSocket } from './http.js';
 import { InteractionLog, type ToolContext } from './lib/context.js';
 import { attachInteractionHandler, registerAllTools } from './tools/index.js';
 
-const VERSION = '1.0.0';
+// package.json is the single source of truth; the release automation only bumps that file.
+const VERSION = (
+  JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }
+).version;
 
 /** Read the first defined env var among names. */
 function env(...names: string[]): string | undefined {
@@ -25,6 +30,8 @@ function fatal(message: string): never {
 }
 
 function transportMode(): 'http' | 'stdio' {
+  // `npx @willuhmjs/discord-mcp --stdio` is how MCP clients launch the published package.
+  if (process.argv.includes('--stdio')) return 'stdio';
   const explicit = env('MCP_TRANSPORT')?.toLowerCase();
   if (explicit === 'stdio') return 'stdio';
   if (explicit === 'http') return 'http';

@@ -1,9 +1,35 @@
 {
-  "name": "discord-mcp",
+  "name": "@willuhmjs/discord-mcp",
   "version": "1.0.0",
+  "mcpName": "io.github.willuhmjs/discord-mcp",
   "description": "MCP server exposing the full Discord API to LLM agents — rich messages, interactions, threads, moderation, AutoMod and server config on discord.js.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "discord",
+    "discord-bot",
+    "discord.js",
+    "claude",
+    "ai-agents",
+    "llm",
+    "moderation"
+  ],
+  "homepage": "https://github.com/willuhmjs/discord-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/willuhmjs/discord-mcp/issues"
+  },
   "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "discord-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -11,13 +37,18 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepack": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/willuhmjs/discord-mcp.git"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.31.0",
     "discord.js": "^14.27.0",
